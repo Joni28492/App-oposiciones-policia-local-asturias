@@ -63,6 +63,10 @@ const FlagSchema = Schema({
     ref: "Tema",
     required: true,
   },
+  nombreTema: {
+    type: String,
+    default: "",
+  },
 });
 
 FlagSchema.methods.toJSON = function () {

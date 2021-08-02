@@ -1,3 +1,3 @@
-# WebServer + RestServer
+# App Oposiciones Policía local - Asturias
 
-Recuerden que deben de ejecutar ```npm install``` para reconstruir los módulos de Node.
+Esta app aun esta en desarrollo, lo que busca es facilitar el estudio de los diferentes temas que abarca una convocatoría de policía local en Asturias

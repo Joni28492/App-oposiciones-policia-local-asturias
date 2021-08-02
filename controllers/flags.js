@@ -2,6 +2,7 @@ const Flags = require("../models/flag");
 const flag = require("../models/flag");
 const tema = require("../models/tema");
 const { response } = require("express");
+const Tema = require("../models/tema");
 
 const listarFlagsPaginado = async (req, res = response) => {
   const { limite = 5, desde = 0 } = req.query;
@@ -19,10 +20,27 @@ const listarFlagsPaginado = async (req, res = response) => {
   res.json({ total, flags });
 };
 
-const crearFlag = (req, res = response) => {
-  const body = req.body;
+const crearFlag = async (req, res = response) => {
+  try {
+    let { pregunta, respuesta, placeholder, uidCreator, id_tema } = req.body;
+    uidCreator = req.usuario._id;
 
-  res.json(body);
+    const temaNombre = await Tema.findById(id_tema);
+
+    const flag = new Flags({
+      pregunta,
+      respuesta,
+      placeholder,
+      uidCreator,
+      id_tema,
+      nombreTema: temaNombre.tema.toUpperCase(),
+    });
+
+    await flag.save();
+    res.json(flag);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
