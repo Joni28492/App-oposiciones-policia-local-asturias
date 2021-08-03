@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { listarFlagsPaginado, crearFlag } = require("../controllers/flags");
+const {
+  listarFlagsPaginado,
+  crearFlag,
+  obtenerFlagPorId,
+} = require("../controllers/flags");
 
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
@@ -9,7 +13,7 @@ const Tema = require("../models/tema");
 const router = Router();
 
 //Pendiente el sistema de login de usuarios
-//crear
+//crear, requiere usuario
 router.post(
   "/",
   [
@@ -22,9 +26,9 @@ router.post(
 //listar paginado
 router.get("/", listarFlagsPaginado);
 //obtener por id
-// router.get("/:id",[], obtenerFlagPorId);//controller sin definir
+router.get("/:id", [], obtenerFlagPorId); //controller sin definir
 
-//otras mas avanzadas para el deprecated
+//otras mas avanzadas para el deprecated, podemos hacer la mayoria con un solo put
 
 //marcar como deprecated
 
