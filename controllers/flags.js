@@ -1,7 +1,6 @@
 const Flags = require("../models/flag");
 const Tema = require("../models/tema");
 const { response } = require("express");
-const { check } = require("express-validator");
 
 const listarFlagsPaginado = async (req, res = response) => {
   const { limite = 5, desde = 0, id } = req.query;
