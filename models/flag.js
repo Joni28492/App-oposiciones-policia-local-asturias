@@ -70,7 +70,7 @@ const FlagSchema = Schema({
 });
 
 FlagSchema.methods.toJSON = function () {
-  const { __v, ...data } = this.toObject();
+  const { __v, estado, ...data } = this.toObject();
   return data;
 };
 

@@ -4,7 +4,10 @@ const {
   listarFlagsPaginado,
   crearFlag,
   obtenerFlagPorId,
+  manejadorDeprecated,
+  marcarDeprecated,
 } = require("../controllers/flags");
+const { existeFlagPorId } = require("../helpers/db-validators");
 
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
@@ -23,15 +26,17 @@ router.post(
   ],
   crearFlag
 );
-//listar paginado
+//listar paginado, utilizamos este endpoint como buscador via _id
 router.get("/", listarFlagsPaginado);
-//obtener por id
-router.get("/:id", [], obtenerFlagPorId); //controller sin definir
 
 //otras mas avanzadas para el deprecated, podemos hacer la mayoria con un solo put
 
 //marcar como deprecated
-
+router.delete(
+  "/:id",
+  [validarJWT, check("id").custom(existeFlagPorId)],
+  marcarDeprecated
+);
 //obtener deprecated
 
 //validar deprecated

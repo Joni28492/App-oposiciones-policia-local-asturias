@@ -1,12 +1,12 @@
 const Flags = require("../models/flag");
-const flag = require("../models/flag");
-const tema = require("../models/tema");
-const { response } = require("express");
 const Tema = require("../models/tema");
+const { response } = require("express");
+const { check } = require("express-validator");
 
 const listarFlagsPaginado = async (req, res = response) => {
-  const { limite = 5, desde = 0 } = req.query;
-  const query = { estado: true };
+  const { limite = 5, desde = 0, id } = req.query;
+  const query = { estado: true, _id: id }; //utilizamos este endpoint como buscador via _id
+  console.log(id);
 
   const [total, flags] = await Promise.all([
     Flags.countDocuments(query),
@@ -51,23 +51,19 @@ const crearFlag = async (req, res = response) => {
   }
 };
 
-const obtenerFlagPorId = async (req, res = response) => {
-  // const { _id } = req.params;
+const marcarDeprecated = async (req, res = response) => {
   const { id } = req.params;
-  console.log("id ------->" + id);
-  const flag = await Flags.findById(id);
-  console.log("flag ------->\n" + flag);
-  if (!flag) {
-    return res.json({
-      msg: `no hay flag para el id ${id}`,
-    });
-  }
 
+  const flag = await Flags.findByIdAndUpdate(
+    id,
+    { estado: false },
+    { new: true }
+  );
   res.json(flag);
 };
 
 module.exports = {
   listarFlagsPaginado,
   crearFlag,
-  obtenerFlagPorId,
+  marcarDeprecated,
 };
