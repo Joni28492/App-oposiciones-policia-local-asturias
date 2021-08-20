@@ -3,9 +3,9 @@ const Tema = require("../models/tema");
 const { response } = require("express");
 
 const listarFlagsPaginado = async (req, res = response) => {
-  const { limite = 5, desde = 0, id } = req.query;
-  const query = { estado: true, _id: id }; //utilizamos este endpoint como buscador via _id
-  console.log(id);
+  const { limite = 5, desde = 0 } = req.query;
+  const query = { estado: true };
+  // console.log(id);
 
   const [total, flags] = await Promise.all([
     Flags.countDocuments(query),
@@ -50,19 +50,21 @@ const crearFlag = async (req, res = response) => {
   }
 };
 
-const marcarDeprecated = async (req, res = response) => {
+const buscarPorId = (req, res = response) => {
   const { id } = req.params;
 
-  const flag = await Flags.findByIdAndUpdate(
-    id,
-    { estado: false },
-    { new: true }
-  );
-  res.json(flag);
+  res.json({ id, msg: "Buscar Por id via params" });
+};
+
+const marcarDeprecated = async (req, res = response) => {
+  const { id } = req.params;
+  const { estado, usuarios, ...data } = req.body;
+  //TODO realizar utilizando tambien el body
 };
 
 module.exports = {
   listarFlagsPaginado,
   crearFlag,
+  buscarPorId,
   marcarDeprecated,
 };

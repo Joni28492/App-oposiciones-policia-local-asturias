@@ -1,5 +1,3 @@
-const { response } = require("express");
-const flag = require("../models/flag");
 const Role = require("../models/role");
 const Usuario = require("../models/usuario");
 
@@ -26,17 +24,8 @@ const existeUsuarioPorId = async (id) => {
   }
 };
 
-const existeFlagPorId = async (req, res = response) => {
-  const { id } = req.params;
-  const existeFlag = await flag.findById(id);
-  if (!existeFlag) {
-    throw new Error(`El id  ${id} no existe para la colección de flags`);
-  }
-};
-
 module.exports = {
   esRoleValido,
   emailExiste,
   existeUsuarioPorId,
-  existeFlagPorId,
 };
